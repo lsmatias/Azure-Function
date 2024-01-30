@@ -12,7 +12,8 @@ Uma [Azure Function](https://azure.microsoft.com/pt-br/products/functions/) é u
    * Faça login no [Azure Portal](https://portal.azure.com/).
    * Selecione um grupo de recursos ou crie um novo.
    * No menu, clique em "+ Criar" e procure por "Function".
-  
+
+
    <img width="339" alt="image" src="https://github.com/lsmatias/Azure-Function/assets/28391885/31c839ed-3704-4aa1-9507-3904740fd336">
   
  * Selecione "Function" na lista de resultados e siga as instruções para criar a Function.
