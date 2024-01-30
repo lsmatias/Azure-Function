@@ -33,33 +33,55 @@ Uma [Azure Function](https://azure.microsoft.com/pt-br/products/functions/) é u
 
 1. Estrutura do Projeto
 Organize seu projeto da Function de acordo com as boas práticas.
+```
+MeuProjetoFunction/
+|-- .vscode/
+|-- MyFunction/
+|   |-- function.json
+|   |-- run.cs
+|-- local.settings.json
+|-- host.json
+|-- README.md
+```
+  <img width="304" alt="image" src="https://github.com/lsmatias/Azure-Function/assets/28391885/30238f38-c6d1-44a3-b5a6-f438815c0c29">
 
-    <img width="304" alt="image" src="https://github.com/lsmatias/Azure-Function/assets/28391885/7b4058d6-ff4f-461d-b05d-38b6d63f0af1">
 
-2. Código da Function
+3. Código da Function
 Escreva o código da Function no arquivo **run.csx**. Use a linguagem que melhor atende às suas necessidades (por exemplo, C#, JavaScript).
 
 
-```#r "Newtonsoft.Json"
-
-using System.Net;
+```
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
+using Microsoft.Azure.WebJobs;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-public static async Task<IActionResult> Run(HttpRequest req, ILogger log)
+public static class MyFunction
 {
-    log.LogInformation("C# HTTP trigger function processed a request.");
+    [FunctionName("MyFunction")]
+    public static async Task<IActionResult> Run(
+        [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "myFunction")] HttpRequest req,
+        ILogger log)
+    {
+        log.LogInformation("C# HTTP trigger function processed a request.");
 
-   string name = req.Query["name"];
+        string name = req.Query["name"];
 
-   return name != null
-        ? (ActionResult)new OkObjectResult($"Hello, {name}")
-        : new BadRequestObjectResult("Please pass a name on the query string");
+        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+        dynamic data = JsonConvert.DeserializeObject(requestBody);
+        name = name ?? data?.name;
+
+        return name != null
+            ? (ActionResult)new OkObjectResult($"Hello, {name}")
+            : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+    }
 }
 ```
 
-  <img width="956" alt="image" src="https://github.com/lsmatias/Azure-Function/assets/28391885/b210fc47-baec-41c5-839b-ff55c608dc2f">
+ <img width="529" alt="image" src="https://github.com/lsmatias/Azure-Function/assets/28391885/30f1aefa-fe4c-45ae-9f0c-3c32c6e2cdb5">
+
 
 # Implantação
 
