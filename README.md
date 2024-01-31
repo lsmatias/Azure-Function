@@ -1,7 +1,7 @@
 # Microsoft Azure Function com C#
 
 # Visão Geral
-Este documento fornece informações detalhadas sobre a configuração, desenvolvimento e implantação de uma Azure Function.
+Este documento fornece informações Basicas sobre a configuração, desenvolvimento e implantação de uma Azure Function.
 
 ## O que é uma Azure Function?
 Uma [Azure Function](https://azure.microsoft.com/pt-br/products/functions/) é um serviço de computação baseado em eventos que permite a execução de código sem precisar provisionar ou gerenciar servidores.
